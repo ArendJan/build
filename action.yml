@@ -195,7 +195,9 @@ runs:
         ENABLE_EXTENSIONS="${{ inputs.armbian_extensions }}" \
         COMPRESS_OUTPUTIMAGE="${{ inputs.armbian_compress }}" \
         SHARE_LOG="yes" \
-        EXPERT="yes"
+        EXPERT="yes" \
+        ALLOW_ROOT="yes" \
+        KERNEL_BTF=no #TODO
 
     - name: Sign
       shell: bash
@@ -206,7 +208,7 @@ runs:
         build/output/images/*.img*.xz
 
     - uses: ncipollo/release-action@v1
-      if: ${{ inputs.armbian_create_release }}
+      if: ${{ inputs.armbian_create_release == 'true'  }}
       with:
         tag: ${{ inputs.armbian_release_tag != '' && inputs.armbian_release_tag || env.ARMBIAN_VERSION }}
         name: "${{ inputs.armbian_release_tittle }}"
@@ -219,7 +221,7 @@ runs:
         body: |
           ${{ inputs.armbian_release_body }}
     - uses: actions/upload-artifact@v4
-      if: ${{ !inputs.armbian_create_release }}
+      if: ${{ inputs.armbian_create_release != 'true' }}
       with:
         path: ${{ inputs.armbian_artifacts }}*"
         # name: overlay_image
