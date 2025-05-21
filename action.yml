@@ -224,7 +224,7 @@ runs:
       if: ${{ inputs.armbian_create_release != 'true' }}
       with:
         path: "${{ inputs.armbian_artifacts }}*"
-        # name: overlay_image
+        name: "${{ inputs.armbian_branch }}-${{ inputs.armbian_board }}-${{ inputs.armbian_release }}-${{ inputs.armbian_kernel_branch }}"
 branding:
   icon: "check"
   color: "red"
