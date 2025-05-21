@@ -140,7 +140,11 @@ runs:
         fetch-depth: 0
         clean: false
         path: custom
-
+    - name: "Cache Armbian build"
+      uses: actions/cache@v4
+      with:
+        path: build/cache
+        key: "armbian-build-${{ inputs.armbian_branch }}-${{ inputs.armbian_board }}-${{ inputs.armbian_release }}-${{ inputs.armbian_kernel_branch }}"
     - shell: bash
       run: |
 
