@@ -145,6 +145,14 @@ runs:
       with:
         path: build/cache
         key: "armbian-build-${{ inputs.armbian_branch }}-${{ inputs.armbian_board }}-${{ inputs.armbian_release }}-${{ inputs.armbian_kernel_branch }}"
+        ignore:
+          - build/cache/apt
+          - build/cache/apt-archives
+          - build/cache/apt-lists
+          - build/cache/apt-archives/*.deb
+          - build/cache/apt-lists/*
+          - "*/lock"
+          - "*/partial"
     - shell: bash
       run: |
 
