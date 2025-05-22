@@ -140,19 +140,21 @@ runs:
         fetch-depth: 0
         clean: false
         path: custom
+    - name: "remove uncachable files"
+      shell: bash
+      run: |
+        rm -rf build/cache/apt
+        rm -rf build/cache/apt-archives
+        rm -rf build/cache/apt-lists
+        rm -rf build/cache/apt-archives/*.deb
+        rm -rf build/cache/apt-lists/*
+        rm -rf "**/lock"
+        rm -rf "**/partial"
     - name: "Cache Armbian build"
       uses: actions/cache@v4
       with:
         path: build/cache
         key: "armbian-build-${{ inputs.armbian_branch }}-${{ inputs.armbian_board }}-${{ inputs.armbian_release }}-${{ inputs.armbian_kernel_branch }}"
-        ignore:
-          - build/cache/apt
-          - build/cache/apt-archives
-          - build/cache/apt-lists
-          - build/cache/apt-archives/*.deb
-          - build/cache/apt-lists/*
-          - "*/lock"
-          - "*/partial"
     - shell: bash
       run: |
 
