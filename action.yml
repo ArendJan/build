@@ -91,6 +91,11 @@ inputs:
     description: "Armbian release tag"
     required: false
 
+  armbian_artifact_name:
+    description: "Armbian artifact name"
+    required: false
+    default: ""
+
   armbian_create_release:
     description: "Create release or ci artifact"
     required: false
@@ -235,10 +240,16 @@ runs:
         body: |
           ${{ inputs.armbian_release_body }}
     - uses: actions/upload-artifact@v4
-      if: ${{ inputs.armbian_create_release != 'true' }}
+      if: ${{ inputs.armbian_create_release != 'true' && inputs.armbian_artifact_name == '' }}
       with:
         path: "${{ inputs.armbian_artifacts }}*"
         name: "${{ inputs.armbian_branch }}-${{ inputs.armbian_board }}-${{ inputs.armbian_release }}-${{ inputs.armbian_kernel_branch }}"
+    - uses: actions/upload-artifact@v4
+      if: ${{ inputs.armbian_create_release != 'true' && inputs.armbian_artifact_name != '' }}
+      with:
+        path: "${{ inputs.armbian_artifacts }}*"
+        name: "${{ inputs.armbian_artifact_name }}"
+
 branding:
   icon: "check"
   color: "red"
